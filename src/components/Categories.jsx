@@ -40,22 +40,23 @@ function Categories({ items, onClickItem }) {
         setActiveItem(index);
     }
 
-
-    console.log(activeItem, setActiveItem);
     //стейт будет хранить новое значение при клике на категории пицц
     return ( 
         <div className="categories">
             <ul>
-              <li className={activeItem === null ? 'active ' : ''} onAuxClick={() => onSelectItem(null)}>
+              <li className={activeItem === null ? 'active ' : ''} onClick={() => onSelectItem(null)}>
                   Все
                   </li>
               {items && 
               items.map((name, index) => 
-              <li className={activeItem === index ? 'active ' : ''}
-               onClick={() => onSelectItem(index) } key ={`$name_${index}`}>{name}</li>)}
+             <li 
+                 className={activeItem === index ? 'active ' : ''}
+                 onClick={() => onSelectItem(index) } 
+                 key ={`$name_${index}`}>
+                 {name}
+             </li>)}
             </ul>
         </div>
-    )
-}
+    )}
 
 export default Categories

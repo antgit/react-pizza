@@ -1,15 +1,38 @@
 import React from 'react'
 
-function SortPopup() {
+function SortPopup( { items } ) {
     const [visiblePopup, setVisiblePopup] = React.useState(false);
+    const [activeItem, setActiveItem] = React.useState(0);
+    const sortRef = React.useRef(); //что бы получить актуальное значение без опозданий и т.п.
+    const activeLabel = items[activeItem];
+
     const toggleVisiblePopup = () => {
         setVisiblePopup(!visiblePopup);
+    };
+
+    const handleOutsideClick = (e) => {
+        if (!e.path.includes(sortRef.current)){
+            setVisiblePopup(false)
+        } //e - событие, пас - путь, карент объект слежки юсРефа
     }
 
+    const onSelectItem = (index) => {
+        setActiveItem(index);
+    }
+
+    React.useEffect(() => {
+        document.body.addEventListener('click', handleOutsideClick);
+     }, []); //ловим клик, первое дело(мб)
+    //юсэффект (специальная) вносит изменения когда визиблпопап как-то меняется
+
     return (
-        <div className="sort">
+        //реф в стрелочной функции чтобы получить ссылку на объект хтмл
+        <div 
+        ref={sortRef} 
+            className="sort">
         <div className="sort__label">
           <svg
+          className={visiblePopup ? 'rotated' : ''}
             width="10"
             height="6"
             viewBox="0 0 10 6"
@@ -22,18 +45,24 @@ function SortPopup() {
             />
           </svg>
           <b>Сортировка по:</b>
-          <span onClick={toggleVisiblePopup}>популярности</span>
+          <span onClick={toggleVisiblePopup}>{activeLabel}</span>
         </div>
-{       visiblePopup && <div className="sort__popup">
+ {visiblePopup && (
+<div className="sort__popup">
           <ul>
-            <li className="active">популярности</li>
-            <li>цене</li>
-            <li>алфавиту</li>
+          {items &&
+              items.map((name, index) => (
+                <li onClick={() => onSelectItem(index) }  
+                className={activeItem === index ? 'active' : ''} 
+                key={`${name}_${index}`}>
+                  {name}
+                </li>
+              ))}
           </ul>
-        </div>}
-      </div>
+        </div>
       //если визиблпопап тру то отобразить компонент хтмл
-    )
+    )}
+</div>
+    );
 }
-
 export default SortPopup
