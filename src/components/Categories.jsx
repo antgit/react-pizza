@@ -1,62 +1,46 @@
-import React from 'react'
- 
-/* class Categories extends React.Component {
+import React from 'react';
+import PropTypes from 'prop-types';
 
-    state = {
-        activeItem: 3,
-    }
-    
-    onSelectItem = index => {
-        this.setState({
-            activeItem: index,
-        });  
-        //сет згачит что обвить стейт 
-    }
+const Categories = React.memo(function Categories({ activeCategory, items, onClickCategory }) {
+  //сет актив айтем функция для обновления переменнной, правило юсстейт
+  //внизу присвоили индексу и юсттейт обновляет внешний вид, не используя юсстейт изменит индекс но визуально нет
+  //стейт будет хранить новое значение при клике на категории пицц
 
-    render() {
-        const { items, onClickItem } = this.props;
-        return ( 
-            <div className="categories">
-                <ul>
-                  <li>Все</li>
-                  {items.map((name, index) => 
-                  <li className={this.state.activeItem === index ? 'active ' : ''} 
-                  // если (?) равен индексу то в класс добавить слово актив 
-                  onClick={() => this.onSelectItem(index) }
-                  //  передали индекс селектайтему что выше в коде находитс 
-                  key ={`$name_${index}`}>{name}</li>)}
-                </ul>
-            </div>
-        )
-    }
-} */
+  /*    const onSelectItem = (index) => {
+    onClickItem(index);
+  };  */
 
+  console.log(activeCategory);
 
-function Categories({ items, onClickItem }) {
-    const [activeItem, setActiveItem] = React.useState(null);
-    //сет актив айтем функция для обновления переменнной, правило юсстейт
-    //внизу присвоили индексу и юсттейт обновляет внешний вид, не используя юсстейт изменит индекс но визуально нет
-    const onSelectItem = (index) => {
-        setActiveItem(index);
-    }
+  return (
+    <div className="categories">
+      <ul>
+        <li
+          className={activeCategory === null ? 'active ' : ''}
+          onClick={() => onClickCategory(null)}>
+          Все
+        </li>
+        {items &&
+          items.map((name, index) => (
+            <li
+              className={activeCategory === index ? 'active ' : ''}
+              onClick={() => onClickCategory(index)}
+              key={`${name}_${index}`}>
+              {name}
+            </li>
+          ))}
+      </ul>
+    </div>
+  );
+}); //по умолчанию ставлю такие свойства на всяк случай
 
-    //стейт будет хранить новое значение при клике на категории пицц
-    return ( 
-        <div className="categories">
-            <ul>
-              <li className={activeItem === null ? 'active ' : ''} onClick={() => onSelectItem(null)}>
-                  Все
-                  </li>
-              {items && 
-              items.map((name, index) => 
-             <li 
-                 className={activeItem === index ? 'active ' : ''}
-                 onClick={() => onSelectItem(index) } 
-                 key ={`$name_${index}`}>
-                 {name}
-             </li>)}
-            </ul>
-        </div>
-    )}
+//необязтельная часть (ниже)
+Categories.propTypes = {
+  //вместо такого можно тайпскриптом
+  //activeCategory: PropTypes.oneOf([PropTypes.number, null]),
+  items: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onClickCategory: PropTypes.func.isRequired,
+}; //будет показывать ошибку с лучае НЕ строки или числа или массива (в консоль)
 
-export default Categories
+Categories.defaultProps = { activeCategory: null, item: [] };
+export default Categories;
