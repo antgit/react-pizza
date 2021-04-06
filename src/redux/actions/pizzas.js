@@ -1,4 +1,4 @@
-import axios from 'axios'; //fetch - вместо него
+import axios from 'axios'; //либо fetch
 
 export const setLoaded = (payload) => ({
   type: 'SET_LOADED',
@@ -22,8 +22,6 @@ export const fetchPizzas = (sortBy, category) => (dispatch) => {
 };
 
 export const setPizzas = (items) => ({
-  //чтобы менять категорию
   type: 'SET_PIZZAS',
   payload: items,
 });
-//тут хранятся действия связанные с фильтрацией

@@ -6,40 +6,37 @@ const initialState = {
 
 const getTotalPrice = (arr) => arr.reduce((sum, obj) => obj.price + sum, 0);
 
-const _get = (obj, path) => {
-  //после 2го часа началось
-  const [firstKey, ...keys] = path.split('.');
-  return keys.reduce((val, key) => {
-    return val[key];
-  }, obj[firstKey]);
-};
-
-const getTotalSum = (obj, path) => {
-  //поправить на повторяющийся код
-  return Object.values(obj).reduce((sum, obj) => {
-    const value = _get(obj, path); //поправить
-    return sum + value;
-  }, 0);
-};
-
 const cart = (state = initialState, action) => {
   switch (action.type) {
     case 'ADD_PIZZA_CART': {
-      //если действие является опредлеенной сортировкой
-      const currentPizzaItems = !state.items[action.payload.id]
+      const currentPizzaItems = !state.items[action.payload.size + action.payload.id]
         ? [action.payload]
-        : [...state.items[action.payload.id].items, action.payload]; //пересоздать массив со старыми значениями и добавить новый объект
+        : [...state.items[action.payload.size + action.payload.id].items, action.payload];
+      console.log(action.payload.size);
+
+      let k, m;
+
+      action.payload.size === 26 ? (k = 1) : (k = 1.4);
+      action.payload.size === 40 ? (m = 1.2) : (m = 1);
 
       const newItems = {
         ...state.items,
-        [action.payload.id]: {
+        [action.payload.size + action.payload.id]: {
           items: currentPizzaItems,
-          totalPrice: getTotalPrice(currentPizzaItems),
+          totalPrice: k * m * getTotalPrice(currentPizzaItems),
         },
       };
 
-      const totalCount = getTotalSum(newItems, 'items.length'); //totalSum изначально и снизу
-      const totalPrice = getTotalSum(newItems, 'totalPrice'); //нью айтемс с каждого айди берет тотал прайс
+      console.log([action.payload.size]);
+
+      const totalCount = Object.keys(newItems).reduce(
+        (sum, key) => newItems[key].items.length + sum,
+        0,
+      );
+      const totalPrice = Object.keys(newItems).reduce(
+        (sum, key) => newItems[key].totalPrice + sum,
+        0,
+      );
 
       return {
         ...state,
@@ -66,18 +63,31 @@ const cart = (state = initialState, action) => {
 
     case 'PLUS_CART_ITEM': {
       const newObjItems = [
-        ...state.items[action.payload].items,
-        state.items[action.payload].items[0],
+        ...state.items[action.payload.size + action.payload.id].items,
+        state.items[action.payload.size + action.payload.id].items[0],
       ];
+
+      let k, m;
+
+      action.payload.size === 26 ? (k = 1) : (k = 1.4);
+      action.payload.size === 40 ? (m = 1.2) : (m = 1);
+
       const newItems = {
         ...state.items,
-        [action.payload]: {
+        [action.payload.size + action.payload.id]: {
           items: newObjItems,
-          totalPrice: getTotalPrice(newObjItems),
+          totalPrice: k * m * getTotalPrice(newObjItems),
         },
       };
-      const totalCount = getTotalSum(newItems, 'items.length'); //totalSum изначально и снизу
-      const totalPrice = getTotalSum(newItems, 'totalPrice'); //нью айтемс с каждого айди берет тотал прайс
+
+      const totalCount = Object.keys(newItems).reduce(
+        (sum, key) => newItems[key].items.length + sum,
+        0,
+      );
+      const totalPrice = Object.keys(newItems).reduce(
+        (sum, key) => newItems[key].totalPrice + sum,
+        0,
+      );
 
       return {
         ...state,
@@ -88,19 +98,34 @@ const cart = (state = initialState, action) => {
     }
 
     case 'MINUS_CART_ITEM': {
-      const oldItems = state.items[action.payload].items;
+      const oldItems = state.items[action.payload.size + action.payload.id].items;
+
       const newObjItems =
-        oldItems.length > 1 ? state.items[action.payload].items.slice(1) : oldItems;
+        oldItems.length > 1
+          ? state.items[action.payload.size + action.payload.id].items.slice(1)
+          : oldItems;
+
+      let k, m;
+
+      action.payload.size === 26 ? (k = 1) : (k = 1.4);
+      action.payload.size === 40 ? (m = 1.2) : (m = 1);
+
       const newItems = {
         ...state.items,
-        [action.payload]: {
+        [action.payload.size + action.payload.id]: {
           items: newObjItems,
-          totalPrice: getTotalPrice(newObjItems),
+          totalPrice: k * m * getTotalPrice(newObjItems),
         },
       };
 
-      const totalCount = getTotalSum(newItems, 'items.length'); //totalSum изначально и снизу
-      const totalPrice = getTotalSum(newItems, 'totalPrice'); //нью айтемс с каждого айди берет тотал прайс
+      const totalCount = Object.keys(newItems).reduce(
+        (sum, key) => newItems[key].items.length + sum,
+        0,
+      );
+      const totalPrice = Object.keys(newItems).reduce(
+        (sum, key) => newItems[key].totalPrice + sum,
+        0,
+      );
 
       return {
         ...state,

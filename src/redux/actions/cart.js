@@ -4,20 +4,20 @@ export const addPizzaToCart = (pizzaObj) => ({
 });
 
 export const clearCart = () => ({
-  type: 'CLEAR_CART', //пейлода нет так как не нужно передавать ничего
+  type: 'CLEAR_CART',
 });
 
-export const removeCartItem = (id) => ({
+export const removeCartItem = (idSize) => ({
   type: 'REMOVE_CART_ITEM',
-  payload: id,
+  payload: idSize,
 });
 
-export const plusCartItem = (id) => ({
+export const plusCartItem = (Obj) => ({
   type: 'PLUS_CART_ITEM',
-  payload: id,
+  payload: Obj,
 });
 
-export const minusCartItem = (id) => ({
+export const minusCartItem = (Obj) => ({
   type: 'MINUS_CART_ITEM',
-  payload: id,
+  payload: Obj,
 });

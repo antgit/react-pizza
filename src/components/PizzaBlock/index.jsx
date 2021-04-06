@@ -2,22 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 
-import LoadingBlock from './LoadingBlock';
 import Button from '../Button';
 
-function PizzaBlock({ id, name, imageUrl, price, types, sizes, onClickAddPizza, addedCount }) {
-  const availableTypes = ['тонкое', 'традиционное'];
+function PizzaBlock({ id, name, imageUrl, price, sizes, onClickAddPizza }) {
   const availableSizes = [26, 30, 40];
 
-  const [activeType, setActiveType] = React.useState(types[0]); // п. 3 - эктив тайп получает индекс массива и будет равно самому себе в онклике
   const [activeSize, setActiveSize] = React.useState(0);
 
-  const onSelectType = (index) => {
-    setActiveType(index); //потом п.3
-  };
-
   const onSelectSize = (index) => {
-    setActiveSize(index); //потом п.3
+    setActiveSize(index);
   };
 
   const onAddPizza = () => {
@@ -27,9 +20,9 @@ function PizzaBlock({ id, name, imageUrl, price, types, sizes, onClickAddPizza, 
       imageUrl,
       price,
       size: availableSizes[activeSize],
-      type: availableTypes[activeType],
     };
     onClickAddPizza(obj);
+    console.log(obj.size);
   };
 
   return (
@@ -38,36 +31,21 @@ function PizzaBlock({ id, name, imageUrl, price, types, sizes, onClickAddPizza, 
       <h4 className="pizza-block__title">{name}</h4>
       <div className="pizza-block__selector">
         <ul>
-          {availableTypes.map((type, index) => (
-            <li
-              /* индекс - номер в массиве */
-              key={type}
-              onClick={() => onSelectType(index)} //потом работает п.2
-              className={classNames({
-                active: activeType === index,
-                disabled: !types.includes(index), //проверка есть ли индекс
-              })}>
-              {type}
-            </li>
-          ))}
-        </ul>
-        <ul>
           {availableSizes.map((size, index) => (
             <li
-              /* индекс - номер в массиве */
               key={size}
               onClick={() => onSelectSize(index)}
               className={classNames({
                 active: activeSize === index,
-                disabled: !sizes.includes(size), //проверка есть ли такой размер в бд, если нет то не активен
+                disabled: !sizes.includes(size), //проверка
               })}>
-              {size} см.
+              Ø{size} см.
             </li>
           ))}
         </ul>
       </div>
       <div className="pizza-block__bottom">
-        <div className="pizza-block__price">от {price} ₽</div>
+        <div className="pizza-block__price">от {price}</div>
         <Button onClick={onAddPizza} className="button--add" outline>
           <svg
             width="12"
@@ -81,28 +59,27 @@ function PizzaBlock({ id, name, imageUrl, price, types, sizes, onClickAddPizza, 
             />
           </svg>
           <span>Добавить</span>
-          {addedCount && <i>{addedCount}</i>}
         </Button>
       </div>
     </div>
   );
 }
-//???
+
 PizzaBlock.propTypes = {
-  name: PropTypes.string, //имена пицц должны быть обязательно строками (проверка, необязательная т.к. там и так строки)
+  name: PropTypes.string,
   imageUrl: PropTypes.string,
   price: PropTypes.number,
   types: PropTypes.arrayOf(PropTypes.number),
-  sizes: PropTypes.arrayOf(PropTypes.number), //массив из только чисел
+  sizes: PropTypes.arrayOf(PropTypes.number),
   onClickAddPizza: PropTypes.func,
   addedCount: PropTypes.number,
-}; //будет показывать ошибку с лучае НЕ строки или числа или массива (в консоль)
+};
 
 PizzaBlock.defaultProps = {
   name: '---',
   price: 0,
   types: [],
   sizes: [],
-}; //по умолчанию ставлю такие свойства на всяк случай
+};
 
 export default PizzaBlock;

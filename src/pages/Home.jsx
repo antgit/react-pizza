@@ -1,32 +1,28 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux'; //объеденит Эпп с Редаксом
+import { useSelector, useDispatch } from 'react-redux';
 
 import { Categories, SortPopup, PizzaBlock, PizzaLoadingBlock } from '../components';
-import { addPizzaToCart } from '../redux/actions/cart';
 
 import { setCategory, setSortBy } from '../redux/actions/filters';
 import { fetchPizzas } from '../redux/actions/pizzas';
-//import { addPizzaToCart } from '../redux/action/cart';
 
-const categoryNames = [' Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые'];
+const categoryNames = ['Мясные', 'Вегетарианские', 'Острые', 'Кальцоне'];
 const sortItems = [
-  { name: 'популярности', type: 'popular', order: 'desc' }, //из базі данніх названия
+  { name: 'популярности', type: 'popular', order: 'desc' },
   { name: 'цене', type: 'price', order: 'desc' },
   { name: 'алфавиту', type: 'name', order: 'asc' },
 ];
 
 function Home() {
   const dispatch = useDispatch();
-  const items = useSelector(({ pizzas }) => pizzas.items); // можно как объект, можно так. вытащить из хранилища из параметра пиццаз  и фильтрс
-  const cartItems = useSelector(({ cart }) => cart.items); //для добавления кол-ва к кнопке.
-  const isLoaded = useSelector(({ pizzas }) => pizzas.isLoaded); //если поменять на айтемс заработает ис лоадед не работает
+  const items = useSelector(({ pizzas }) => pizzas.items);
+  const cartItems = useSelector(({ cart }) => cart.items);
+  const isLoaded = useSelector(({ pizzas }) => pizzas.isLoaded);
   const { category, sortBy } = useSelector(({ filters }) => filters);
-
-  //должен определить загружена или нет(тру/фолс)
 
   React.useEffect(() => {
     dispatch(fetchPizzas(sortBy, category));
-  }, [category, sortBy]); //рендер -- [] вызываем в зависимости от с какой переменной взаимодейтвовали в квадрат скобках
+  }, [category, sortBy]);
 
   const onSelectCategory = React.useCallback((index) => {
     dispatch(setCategory(index));
@@ -34,17 +30,18 @@ function Home() {
 
   const onSelectSortType = React.useCallback(
     (type) => {
-      dispatch(setSortBy(type)); //kkkkkkkkkkkkk
+      dispatch(setSortBy(type));
     },
     [dispatch],
   );
 
   const handleAddPizzaToCart = (obj) => {
+    console.log(obj.size);
     dispatch({
       type: 'ADD_PIZZA_CART',
       payload: obj,
     });
-  }; //тут юз диспатч
+  };
 
   return (
     <div className="container">
@@ -59,10 +56,7 @@ function Home() {
           items={sortItems}
           onClickSortType={onSelectSortType}
         />
-        {/* {name: 'популярности', type: 'popular'} - в фигурные скобки заключили когда добавлять
-        начали редакс (теперь это массив объектов), нейм, популяр - для сортировки при помощи него */}
       </div>
-      <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
         {
           isLoaded
@@ -76,9 +70,7 @@ function Home() {
               ))
             : Array(12)
                 .fill(0)
-                .map((_, index) => <PizzaLoadingBlock key={index} />) //сделали так что бы показать все пицы из базі данных
-          //{...obj} - тоже что obj = {obj} либо name = {obj.name} и прочие свойства таким образом. ...- вытащить все свойства
-          //обдж - пицца блок
+                .map((_, index) => <PizzaLoadingBlock key={index} />) //пиццы из бд
         }
       </div>
     </div>

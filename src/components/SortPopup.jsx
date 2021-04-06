@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 const SortPopup = React.memo(function SortPopup({ items, activeSortType, onClickSortType }) {
   const [visiblePopup, setVisiblePopup] = React.useState(false);
-  const sortRef = React.useRef(); //что бы получить актуальное значение без опозданий и т.п.
-  const activeLabel = items.find((obj) => obj.type === activeSortType).name; //беретс из редакс (папок?)
+  const sortRef = React.useRef();
+  const activeLabel = items.find((obj) => obj.type === activeSortType).name;
 
   const toggleVisiblePopup = () => {
     setVisiblePopup(!visiblePopup);
@@ -14,27 +14,24 @@ const SortPopup = React.memo(function SortPopup({ items, activeSortType, onClick
     const path =
       event.path ||
       (event.composedPath && event.composedPath()) ||
-      event.composedPath(event.target); //для фаерфокса composedPath поєтому тут проверки
+      event.composedPath(event.target); //для фаерфокса - composedPath. Проверка
     if (!path.includes(sortRef.current)) {
       setVisiblePopup(false);
-    } //e - событие, пас - путь, карент объект слежки юсРефа
+    } //path - путь, current объект отслеживания useRef
   };
 
   const onSelectItem = (index) => {
     if (onClickSortType) {
       onClickSortType(index);
     }
-    //onClickSortType(index);
     setVisiblePopup(false);
   };
 
   React.useEffect(() => {
     document.body.addEventListener('click', handleOutsideClick);
-  }, []); //ловим клик, первое дело(мб)
-  //юсэффект (специальная) вносит изменения когда визиблпопап как-то меняется
+  }, []);
 
   return (
-    //реф в стрелочной функции чтобы получить ссылку на объект хтмл
     <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
@@ -66,7 +63,6 @@ const SortPopup = React.memo(function SortPopup({ items, activeSortType, onClick
               ))}
           </ul>
         </div>
-        //если визиблпопап тру то отобразить компонент хтмл
       )}
     </div>
   );

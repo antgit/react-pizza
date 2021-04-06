@@ -3,15 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Button, CartItem } from '../components';
-import cartEmptyImage from '../assets/img/empty-cart.png';
+import cartEmptyImage from '../assets/img/empty.png';
 import { clearCart, removeCartItem, plusCartItem, minusCartItem } from '../redux/actions/cart';
 
 function Cart() {
   const dispatch = useDispatch();
-  const { totalPrice, totalCount, items } = useSelector(({ cart }) => cart); //из редакса из карт(корзиины) вытаскиваем весь карт(всю корзину)
+  const { totalPrice, totalCount, items } = useSelector(({ cart }) => cart); //из редакса корзину
 
   const addedPizzas = Object.keys(items).map((key) => {
-    return items[key].items[0]; //из єтого массива первій єлемент (индекс нолль т.е. его)
+    return items[key].items[0]; //первый из бд
   });
 
   const onClearCart = () => {
@@ -20,6 +20,7 @@ function Cart() {
     }
   };
   const onRemoveItem = (id) => {
+    console.log(id);
     if (window.confirm('Вы действитель хотите удалить?')) {
       dispatch(removeCartItem(id));
     }
@@ -119,11 +120,14 @@ function Cart() {
                 <CartItem
                   key={obj.id}
                   id={obj.id}
+                  imageUrl={obj.imageUrl}
                   name={obj.name}
                   type={obj.type}
                   size={obj.size}
-                  totalPrice={items[obj.id].totalPrice}
-                  totalCount={items[obj.id].items.length}
+                  //totalPrice={items[obj.id].totalPrice}
+                  //totalCount={items[obj.id].items.length}
+                  totalPrice={items[obj.id + obj.size].totalPrice}
+                  totalCount={items[obj.id + obj.size].items.length}
                   onRemove={onRemoveItem}
                   onMinus={onMinusItem}
                   onPlus={onPlusItem}
@@ -167,14 +171,8 @@ function Cart() {
           </div>
         ) : (
           <div className="cart cart--empty">
-            <h2>
-              Корзина пустая <i>😕</i>
-            </h2>
-            <p>
-              Вероятней всего, вы не заказывали ещё пиццу.
-              <br />
-              Для того, чтобы заказать пиццу, перейди на главную страницу.
-            </p>
+            <h2>Корзина пустая</h2>
+            <p>Для того, чтобы оформить заказ, перейдите на главную страницу.</p>
             <img src={cartEmptyImage} alt="Empty cart" />
           </div>
         )}

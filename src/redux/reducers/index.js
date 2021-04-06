@@ -1,12 +1,11 @@
-import { combineReducers } from 'redux'; //комбайном объеденяем редюсеры
+import { combineReducers } from 'redux';
 
-//редюсеры. в просмотреть код недалеко от консоли во вкладке редакс они отображаются
-import filters from './filters'; //без комбайна нельзя два
+import filters from './filters';
 import pizzas from './pizzas';
 import cart from './cart';
 
 const rootReducer = combineReducers({
-  filters, //filters: filters - аналогичная запись этой строки
+  filters, //либо filters: filters
   pizzas,
   cart,
 });

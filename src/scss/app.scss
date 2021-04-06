@@ -14,21 +14,18 @@ body {
   height: 100%;
   background-color: #fff;
   margin: 0px auto;
-  border-radius: 10px;
+  border-radius: 20px;
   max-width: 1400px;
 }
 
 .content {
   padding: 40px 0;
 
-  &__title {
-    margin: 35px 0;
-  }
-
   &__items {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
+    padding: 60px 0;
   }
 
   &__top {
@@ -222,7 +219,7 @@ body {
 
         &:last-of-type {
           b {
-            color: $orange;
+            color: gra;
           }
         }
       }

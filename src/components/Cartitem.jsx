@@ -1,27 +1,35 @@
 import React from 'react';
 import Button from './Button';
 
-const CartItem = ({ id, name, type, size, totalPrice, totalCount, onRemove, onMinus, onPlus }) => {
+const CartItem = ({
+  id,
+  name,
+  imageUrl,
+  type,
+  size,
+  totalPrice,
+  totalCount,
+  onRemove,
+  onMinus,
+  onPlus,
+  obj = { id, size },
+}) => {
   const hanleRemoveClick = () => {
-    onRemove(id);
+    onRemove(id + size);
   };
 
   const handlePlusItem = () => {
-    onPlus(id);
+    onPlus(obj);
   };
 
   const handleMinusItem = () => {
-    onMinus(id);
+    onMinus(obj);
   };
 
   return (
     <div className="cart__item">
       <div className="cart__item-img">
-        <img
-          className="pizza-block__image"
-          src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-          alt="Pizza"
-        />
+        <img className="pizza-block__image" src={imageUrl} alt={name} />
       </div>
       <div className="cart__item-info">
         <h3>{name}</h3>
@@ -71,7 +79,7 @@ const CartItem = ({ id, name, type, size, totalPrice, totalCount, onRemove, onMi
         </div>
       </div>
       <div className="cart__item-price">
-        <b>{totalPrice} ₽</b>
+        <b>{totalPrice} грн.</b>
       </div>
       <div className="cart__item-remove">
         <Button onClick={hanleRemoveClick} className="button--circle" outline>

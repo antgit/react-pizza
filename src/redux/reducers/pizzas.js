@@ -1,15 +1,14 @@
 const initialState = {
   items: [],
-  isLoaded: false, //если загружено приложение то отобразим
+  isLoaded: false, //если загружено приложение - отобразить
 };
 
 const pizzas = (state = initialState, action) => {
   switch (action.type) {
     case 'SET_PIZZAS':
-      //если действие является опредлеенной сортировкой
       return {
-        ...state, //берет старые значения initialState (инфу по пиццам)
-        items: action.payload, //заменяет items на новые значения. в акшен пейлоад будет массив
+        ...state,
+        items: action.payload,
         isLoaded: true,
       };
     case 'SET_LOADED':
@@ -22,6 +21,5 @@ const pizzas = (state = initialState, action) => {
       return state;
   }
 };
-//
+
 export default pizzas;
-//
