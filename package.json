@@ -2,7 +2,6 @@
   "name": "pizza-r",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://pasichnyktetiana.github.io/react-pizza/",
   "dependencies": {
     "@babel/core": "7.12.3",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
@@ -82,7 +81,8 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "server": "npx json-server --watch public/db.json --port=3001",
+    "server": "node server.js",
+    "json-server": "npx json-server --watch public/db.json --port=3001",
     "deploy": "gh-pages -d build",
     "predeploy": "npm run build"
   },
