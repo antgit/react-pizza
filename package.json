@@ -2,6 +2,7 @@
   "name": "pizza-r",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://pasichnyktetiana.github.io/react-pizza/",
   "dependencies": {
     "@babel/core": "7.12.3",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
@@ -36,6 +37,7 @@
     "eslint-webpack-plugin": "^2.5.2",
     "file-loader": "6.1.1",
     "fs-extra": "^9.0.1",
+    "gh-pages": "^3.1.0",
     "html-webpack-plugin": "4.5.0",
     "identity-obj-proxy": "3.0.0",
     "jest": "26.6.0",
@@ -80,7 +82,9 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "server": "npx json-server --watch public/db.json --port=3001"
+    "server": "npx json-server --watch public/db.json --port=3001",
+    "deploy": "gh-pages -d build",
+    "predeploy": "npm run build"
   },
   "eslintConfig": {
     "extends": [
