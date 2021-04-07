@@ -34,7 +34,7 @@ const CartItem = ({
       <div className="cart__item-info">
         <h3>{name}</h3>
         <p>
-          {type} тесто, {size} см.
+          {type} тесто, {size} см
         </p>
       </div>
       <div className="cart__item-count">
@@ -79,7 +79,7 @@ const CartItem = ({
         </div>
       </div>
       <div className="cart__item-price">
-        <b>{totalPrice} грн.</b>
+        <b>{totalPrice} грн</b>
       </div>
       <div className="cart__item-remove">
         <Button onClick={hanleRemoveClick} className="button--circle" outline>

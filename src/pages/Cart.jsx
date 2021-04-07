@@ -35,7 +35,7 @@ function Cart() {
   };
 
   const onClickOrder = () => {
-    alert('ВАШ ЗАКАЗ');
+    alert('Сумма заказа: ' + totalPrice + ' грн');
   };
 
   return (
@@ -140,7 +140,7 @@ function Cart() {
                   Всего пицц: <b>{totalCount} шт.</b>
                 </span>
                 <span>
-                  Сумма заказа: <b>{totalPrice} грн.</b>
+                  Сумма заказа: <b>{totalPrice} грн</b>
                 </span>
               </div>
               <div className="cart__bottom-buttons">

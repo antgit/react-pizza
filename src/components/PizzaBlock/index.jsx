@@ -39,7 +39,7 @@ function PizzaBlock({ id, name, imageUrl, price, sizes, onClickAddPizza }) {
                 active: activeSize === index,
                 disabled: !sizes.includes(size), //проверка
               })}>
-              Ø{size} см.
+              Ø{size} см
             </li>
           ))}
         </ul>
